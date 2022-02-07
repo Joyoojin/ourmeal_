@@ -1,0 +1,59 @@
+<!--이벤트 메인 페이지 -->
+<!DOCTYPE html>
+
+<html layout:decorate="~{layouts/layout1}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+    <style>
+        .carousel-inner > .item {
+            height: 350px;
+        }
+        .margin{
+            margin-bottom:30px;
+        }
+        .banner{
+            height: 300px;
+            position: absolute; top:0; left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        a:hover{
+            text-decoration:none;
+        }
+        .center{
+            text-align:center;
+        }
+
+    </style>
+</th:block>
+
+<div layout:fragment="content">
+
+    <div class="carousel slide margin" data-ride="carousel" id="carouselControls">
+        <div class="carousel-inner">
+            <div class="carousel-item active item">
+                <img alt="First slide" class="d-block w-100 banner"
+                                   src="https://image.gsecretail.com/dp/data/image/origin/14/91/1642647129114/1642647129114_M.jpg">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="carousel slide margin" data-ride="carousel" id="carouselControls2">
+        <div class="carousel-inner">
+            <div class="carousel-item active item">
+               <img alt="First slide"class="d-block w-100 banner"
+                    src="https://previews.123rf.com/images/radenmas/radenmas1605/radenmas160500067/57186211-%EB%B9%85-%EC%84%B8%EC%9D%BC-%EB%B0%B0%EB%84%88-%EB%B0%8F-%EB%B2%A0%EC%8A%A4%ED%8A%B8-%EC%98%A4%ED%8D%BC.jpg">
+
+            </div>
+        </div>
+    </div>
+
+<!--    <img alt="wer" class="card-img-top" height="400" src="/images/item/c1d6e65d-b68f-4175-b690-bb9402b8dd88.PNG"> -->
+
+</div>
+
+

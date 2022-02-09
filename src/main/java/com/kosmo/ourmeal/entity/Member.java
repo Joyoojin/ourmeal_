@@ -61,7 +61,7 @@ public class Member extends BaseEntity {
         String password = passwordEncoder.encode(memberFormDto.getPassword()); // SecurityConfig 클래스에서 등록한 BCryptPasswordEncoder Bean 을 파라미터로 넘겨서 비밀번호 암호화
         member.setPassword(password);
         member.setMemPhone(memberFormDto.getMemPhone());
-        member.setRole(Role.USER);   // 차후 운영단계에선 , USER 으로 수정 필요!
+        member.setRole(Role.ADMIN);   // 차후 운영단계에선 , USER 으로 수정 필요!
         return member;
     }
 

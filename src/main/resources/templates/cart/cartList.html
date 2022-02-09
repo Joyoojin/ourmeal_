@@ -196,7 +196,7 @@
 <div layout:fragment="content" class="content-mg">
 
     <h2 class="mb-4">
-        장바구니 목록
+        장바구니
     </h2>
 
     <div>
@@ -210,10 +210,11 @@
             <thead>
             <tr class="text-center">
                 <td>
-                    <input type="checkbox" id="checkall" onclick="checkAll()"> 전체선택
+                    <input type="checkbox" id="checkall" onclick="checkAll()"> 전체
                 </td>
-                <td>상품정보</td>
-                <td>상품금액</td>
+                <td>상품</td>
+                <td>주문 수량</td>
+                <td>총액</td>
             </tr>
             </thead>
             <tbody>
@@ -233,15 +234,18 @@
                                       th:data-price="${cartItem.price}"
                                       th:text="${cartItem.price} + '원'" class="align-self-center mr-2">
                                 </span>
-                                <input type="number" name="count" th:id="'count_' + ${cartItem.cartItemId}"
-                                       th:value="${cartItem.count}" min="1"
-                                       onchange="changeCount(this)" class="form-control mr-2" >
-                                <button type="button" class="close" aria-label="Close">
-                                    <span aria-hidden="true" th:data-id="${cartItem.cartItemId}" onclick="deleteCartItem(this)">&times;</span> <!-- 삭제하기 버튼-->
-                                </button>
+
                             </span>
                         </div>
                     </div>
+                </td>
+                <td class="text-center align-middle">
+                    <input type="number" name="count" th:id="'count_' + ${cartItem.cartItemId}"
+                           th:value="${cartItem.count}" min="1"
+                           onchange="changeCount(this)" class="form-control mr-2" >
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true" th:data-id="${cartItem.cartItemId}" onclick="deleteCartItem(this)">&times;</span> <!-- 삭제하기 버튼-->
+                    </button>
                 </td>
                 <td class="text-center align-middle">
                     <span th:id="'totalPrice_' + ${cartItem.cartItemId}"
@@ -251,13 +255,13 @@
             </tr>
             </tbody>
         </table>
-
+        <hr>
         <h2 class="text-center">
-            총 주문 금액 : <span id="orderTotalPrice" class="text-danger">0원</span>
+            총 주문 합계 : <span id="orderTotalPrice" class="text-danger">0원</span>
         </h2>
 
         <div class="text-center mt-3">
-            <button type="button" class="btn btn-primary btn-lg" onclick="orders()">주문하기</button>
+            <button type="button" class="btn btn-primary btn-lg" onclick="orders()">주문</button>
         </div>
 
     </div>

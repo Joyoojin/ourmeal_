@@ -94,7 +94,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">상품명</span>
             </div>
-            <input class="form-control" placeholder="상품명을 입력해주세요" th:field="*{itemNm}" type="text">
+            <input class="form-control"  th:field="*{itemNm}" type="text">
         </div>
         <p class="fieldError" th:errors="*{itemNm}" th:if="${#fields.hasErrors('itemNm')}">Incorrect data</p>
 
@@ -102,7 +102,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">가격</span>
             </div>
-            <input class="form-control" placeholder="상품의 가격을 입력해주세요" th:field="*{price}" type="number">
+            <input class="form-control"  th:field="*{price}" type="number">
         </div>
         <p class="fieldError" th:errors="*{price}" th:if="${#fields.hasErrors('price')}">Incorrect data</p>
 
@@ -110,13 +110,13 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">재고</span>
             </div>
-            <input class="form-control" placeholder="상품의 재고를 입력해주세요" th:field="*{stockNumber}" type="number">
+            <input class="form-control"  th:field="*{stockNumber}" type="number">
         </div>
         <p class="fieldError" th:errors="*{stockNumber}" th:if="${#fields.hasErrors('stockNumber')}">Incorrect data</p>
 
         <div class="input-group">
             <div class="input-group-prepend">
-                <span class="input-group-text">상품 상세 내용</span>
+                <span class="input-group-text">상세 내용</span>
             </div>
             <textarea aria-label="With textarea" class="form-control" th:field="*{itemDetail}"></textarea>
         </div>
@@ -126,7 +126,7 @@
             <div class="form-group" th:each="num: ${#numbers.sequence(1,3)}">
                 <div class="custom-file img-div">
                     <input class="custom-file-input" name="itemImgFile" type="file">
-                    <label class="custom-file-label" th:text="상품이미지 + ${num}"></label>
+                    <label class="custom-file-label" th:text="이미지 + ${num}"></label>
                 </div>
             </div>
         </div>
@@ -144,7 +144,7 @@
 
 
         <div style="text-align: center" th:if="${#strings.isEmpty(itemFormDto.id)}"><!-- 상품 등록 페이지 -->
-            <button class="btn btn-primary" th:formaction="@{/admin/item/new}" type="submit">저장</button>
+            <button class="btn btn-primary" th:formaction="@{/admin/item/new}" type="submit">등록</button>
         </div>
         <div style="text-align: center" th:unless="${#strings.isEmpty(itemFormDto.id)}"><!-- 상품 수정 페이지 -->
             <button class="btn btn-primary" th:formaction="@{'/admin/item/' + ${itemFormDto.id} }" type="submit">수정

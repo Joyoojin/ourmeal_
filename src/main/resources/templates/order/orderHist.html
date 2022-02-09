@@ -82,42 +82,59 @@
         .fs24{
             font-size:24px
         }
+        .count{
+            color : red;
+            font-size: 20px;
+        }
     </style>
 </th:block>
 
 <div layout:fragment="content" class="content-mg">
 
     <h2 class="mb-4">
-        구매 이력
+        주문 내역
     </h2>
 
     <div th:each="order : ${orders.getContent()}">
 
-        <div class="d-flex mb-3 align-self-center">
-            <h4 th:text="${order.orderDate} + ' 주문'"></h4>
-            <div class="ml-3">
-                <th:block th:if="${order.orderStatus == T(com.kosmo.ourmeal.constant.OrderStatus).ORDER}">
-                    <button type="button" class="btn btn-outline-secondary" th:value="${order.orderId}" onclick="cancelOrder(this.value)">주문취소</button>
-                </th:block>
-                <th:block th:unless="${order.orderStatus == T(com.kosmo.ourmeal.constant.OrderStatus).ORDER}">
-                    <h4>(취소 완료)</h4>
-                </th:block>
-            </div>
-        </div>
         <div class="card d-flex">
+
+            <div class="d-flex mb-3"><!--  align-self-center-->
+                <h6 th:text="'주문 완료 시간 : '+  ${order.orderDate} "></h6>
+                <div class="ml-3">
+                    <th:block th:if="${order.orderStatus == T(com.kosmo.ourmeal.constant.OrderStatus).ORDER}">
+                        <button type="button" class="btn btn-outline-secondary" th:value="${order.orderId}" onclick="cancelOrder(this.value)">취소</button>
+                    </th:block>
+                    <th:block th:unless="${order.orderStatus == T(com.kosmo.ourmeal.constant.OrderStatus).ORDER}">
+                        <h4>(취소 완료)</h4>
+                    </th:block>
+                </div>
+            </div>
+        <hr>
             <div th:each="orderItem : ${order.orderItemDtoList}" class="d-flex mb-3">
                 <div class="repImgDiv">
                     <img th:src="${orderItem.imgUrl}" class = "rounded repImg" th:alt="${orderItem.itemNm}">
                 </div>
-                <div class="align-self-center w-75">
+                <div class="align-self-center w-50">
                     <span th:text="${orderItem.itemNm}" class="fs24 font-weight-bold"></span>
                     <div class="fs18 font-weight-light">
                         <span th:text="${orderItem.orderPrice} +'원'"></span>
-                        <span th:text="${orderItem.count} +'개'"></span>
+               <!--         <span th:text="${orderItem.count} +'개'"></span> -->
+
                     </div>
                 </div>
+                <div class="count">
+                    <div th:text="${orderItem.count} +'개   '"></div>
+                </div>
+                &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                <div>
+                    <div th:text="    '(합계) '+ ${orderItem.count * orderItem.orderPrice} + ' 원'"></div>
+                </div>
             </div>
+
+
         </div>
+
 
     </div>
 

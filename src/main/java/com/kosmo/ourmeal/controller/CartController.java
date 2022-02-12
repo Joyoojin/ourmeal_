@@ -49,7 +49,7 @@ public class CartController {
 
         return new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
     }
-
+    //장바구니 페이지
     @GetMapping(value = "/cart")
     public String orderHist(Principal principal, Model model){
         List<CartDetailDto> cartDetailList = cartService.getCartList(principal.getName());

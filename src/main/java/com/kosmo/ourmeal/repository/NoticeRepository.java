@@ -15,15 +15,16 @@ import java.util.List;
 public interface NoticeRepository extends JpaRepository<Notice, Long>,
         QuerydslPredicateExecutor<Notice>, NoticeRepositoryCustom {
 
+    //조회수 증가
+    @Modifying
+    @Query("update Notice n set n.noticeHit = n.noticeHit + 1 where n.noticeID = :noticeID")
+    int updateNoticeHit(Long noticeID);
+
 
     List<Notice> findByNoticeID(Long noticeID);
 
     List<Notice> findByNoticeTitleContaining(String keyword);
 
-    //조회수 증가
-    @Modifying
-    @Query("update Notice n set n.noticeHit = n.noticeHit + 1 where n.noticeID = :noticeID")
-    int updateNoticeHit(Long noticeID);
 
 }
 

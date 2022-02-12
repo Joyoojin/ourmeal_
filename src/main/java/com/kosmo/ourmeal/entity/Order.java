@@ -20,7 +20,7 @@ public class Order extends BaseEntity {
     @Column(name = "order_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY) // ( 추가..? cascade테스트 ?  )
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 

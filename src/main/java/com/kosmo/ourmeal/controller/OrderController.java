@@ -3,6 +3,9 @@ package com.kosmo.ourmeal.controller;
 
 import com.kosmo.ourmeal.dto.OrderDto;
 import com.kosmo.ourmeal.dto.OrderHistDto;
+import com.kosmo.ourmeal.entity.Member;
+import com.kosmo.ourmeal.entity.Order;
+import com.kosmo.ourmeal.entity.OrderItem;
 import com.kosmo.ourmeal.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -53,7 +56,7 @@ public class OrderController {
 
         return new ResponseEntity<Long>(orderId, HttpStatus.OK);
     }
-
+    //나의 주문 조회 페이지
     @GetMapping(value = {"/orders", "/orders/{page}"})
     public String orderHist(@PathVariable("page") Optional<Integer> page, Principal principal, Model model){
 
@@ -65,8 +68,25 @@ public class OrderController {
         model.addAttribute("maxPage", 5);
 
         return "order/orderHist";
+
     }
 
+     //관리자 주문 전체 조회
+    @GetMapping(value = {"/admin/orders","/admin/orders/{page}"})
+    public String adminOrders(Model model ,@PathVariable("page") Optional<Integer> page) {
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 4);
+        Page<OrderHistDto> ordersHistDtoList = orderService.getAllOrderList(pageable);
+        List orders = orderService.getOrders();
+
+        model.addAttribute("orders", ordersHistDtoList);
+        model.addAttribute("page", pageable.getPageNumber());
+        model.addAttribute("maxPage", 5);
+        model.addAttribute("orderLists", orders);
+
+        return "order/orderList";
+    }
+
+    //나의 주문 취소
     @PostMapping("/order/{orderId}/cancel")
     public @ResponseBody ResponseEntity cancelOrder(@PathVariable("orderId") Long orderId , Principal principal){
 
@@ -78,4 +98,28 @@ public class OrderController {
         return new ResponseEntity<Long>(orderId, HttpStatus.OK);
     }
 
+
+        // 관리자 주문 취소
+    @PostMapping("/admin/orders/{orderId}/cancel")
+    public @ResponseBody ResponseEntity cancelOrder(@PathVariable("orderId") Long orderId){
+
+        orderService.cancelOrder(orderId);
+        return new ResponseEntity<Long>(orderId, HttpStatus.OK);
+    }
 }
+
+    /*
+     * 관리자 주문 전체 조회
+     *
+    @GetMapping("/admin/orders2")
+    public String adminOrders2(Model model, @RequestParam(required = false, defaultValue = "0", value = "page") int page) {
+
+        Page<OrderItem> orderItems = orderService.getOrderItems(page);
+
+        int totalPage = orderItems.getTotalPages();
+
+        model.addAttribute("totalPage", totalPage);
+        model.addAttribute("orderItems", orderItems.getContent());
+
+        return "order/orderList2";
+    }   */

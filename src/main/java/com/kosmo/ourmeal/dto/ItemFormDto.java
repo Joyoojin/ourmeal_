@@ -27,7 +27,7 @@ public class ItemFormDto {
     @NotNull(message = "재고는 필수 입력 값입니다.")
     private Integer stockNumber;
     private ItemSellStatus itemSellStatus;
-    private PCategory pCategory;      // 상품 분류        (+).추가!
+    private PCategory pCategory;      // 상품 분류
     private List<ItemImgDto> itemImgDtoList = new ArrayList<>();
     private List<Long> itemImgIds = new ArrayList<>();
 

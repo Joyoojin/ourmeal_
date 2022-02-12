@@ -34,11 +34,9 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
         return searchSellStatus == null ? null : QItem.item.itemSellStatus.eq(searchSellStatus);
     }
 
-
     private BooleanExpression searchPCategoryEq(PCategory searchPCategory) {        //상품 카테고리 분류
         return searchPCategory == null ? null : QItem.item.pCategory.eq(searchPCategory);
     }
-
 
     private BooleanExpression regDtsAfter(String searchDateType) {  //상품 등록 시간 분류
 

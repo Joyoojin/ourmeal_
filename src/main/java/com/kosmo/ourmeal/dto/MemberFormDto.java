@@ -25,6 +25,7 @@ public class MemberFormDto {
 
     private static ModelMapper modelMapper = new ModelMapper();
 
+
     @NotBlank(message = "아이디는 필수 입력입니다.")
     @Length(min = 2, max = 15, message = "아이디는 2자 이상, 15자 이하로 입력해주세요")
     private String memID;
@@ -47,6 +48,7 @@ public class MemberFormDto {
     /**
      * 다음 카카오 api - address
      */
+    @NotEmpty(message = "주소를 입력해주세요.")
     private String roadAddress;
     private String jibunAddress;
     private String detailAddress;

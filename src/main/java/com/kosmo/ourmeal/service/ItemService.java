@@ -96,20 +96,11 @@ public class ItemService {
         return itemRepository.getMainItemPage(itemSearchDto, pageable);
     }
 
-
     //전체조회
     @Transactional
     public List<Item> findItems() {
         return itemRepository.findAll();
     }
 
-    //삭제하기 추가
-    @Transactional
-    public void deleteItem(Long id) {
-        itemRepository.deleteById(id);
-//        itemRepository.deleteAllByIdInQuery(id);
-    }
-
-
-
 }
+

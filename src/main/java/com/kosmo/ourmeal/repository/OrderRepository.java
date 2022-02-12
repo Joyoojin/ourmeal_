@@ -10,6 +10,12 @@ import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
+    //관리자 전체 주문 조회
+    @Query("select o from Order o " +
+            "order by o.orderDate desc"
+    )
+    List<Order> findAllOrders(Pageable pageable);
+
     @Query("select o from Order o " +
             "where o.member.email = :email " +
             "order by o.orderDate desc"
@@ -20,4 +26,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "where o.member.email = :email"
     )
     Long countOrder(@Param("email") String email);
+
 }

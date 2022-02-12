@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 /**
- * (+) 게시판
+ *  게시판
  */
 @Getter
 @Setter

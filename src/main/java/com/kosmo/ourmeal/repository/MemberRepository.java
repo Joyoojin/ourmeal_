@@ -21,5 +21,7 @@ public interface MemberRepository extends JpaRepository<Member, Long>, QuerydslP
 
     void deleteByMemID(String memID);
 
+
+
 }
 

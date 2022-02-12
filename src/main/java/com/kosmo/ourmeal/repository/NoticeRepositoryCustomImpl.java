@@ -21,5 +21,4 @@ public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom {
                 .getResultList();
     }
 
-
 }

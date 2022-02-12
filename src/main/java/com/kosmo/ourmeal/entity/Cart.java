@@ -19,7 +19,6 @@ public class Cart extends BaseEntity {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-//  , cascade = CascadeType.ALL ( 추가..? cascade테스트 중...  )
     @JoinColumn(name = "member_id")
     private Member member;
 

@@ -5,6 +5,7 @@ import com.kosmo.ourmeal.dto.NoticeFormDto;
 import com.kosmo.ourmeal.entity.Notice;
 import com.kosmo.ourmeal.service.NoticeService;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

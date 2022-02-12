@@ -5,6 +5,7 @@ import com.kosmo.ourmeal.dto.MemberFormDto;
 import com.kosmo.ourmeal.entity.Member;
 import com.kosmo.ourmeal.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -19,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 //  스프링 시큐리티에서 UserDetailsService 를 구현하고 있는 클래스를 통해 로그인 기능 구현
-/* validateDuplicateMember  이메일 중복체크 -> 이메일, 아이디 둘다 중복체크  로 변경 */
 
 @Service
 @Transactional                  // 로직 처리중 에러 발생시, 변경된 데이터를 로직 수행 이전상태로 콜백.
@@ -27,6 +27,7 @@ import java.util.List;
 // final 이나, @Nonnull 붙은 필드에 생성자를 자동으로 생성. 생성자가 1개이고, 생성자 파라미터 타임이 빈등록 가능하면  @Autowired 어노테이션 없이 의존성 주입 가능
 public class MemberService implements UserDetailsService {  //UserDetailService 인터페이스( db에서 회원정보 가져옴)를 구현.
 
+    @Autowired
     private final MemberRepository memberRepository; // @RequiredArgsConstructor  에 의해 생성자 자동 생성.
 
     // 등록
@@ -36,10 +37,16 @@ public class MemberService implements UserDetailsService {  //UserDetailService 
     }
 
     /*회원가입 검증*/
-    private void validateDuplicateMember(Member member) {  //  중복 회원은 IllegalStateException 예외 발생  
-        Member findMember = memberRepository.findByMemIDOrEmail(member.getMemID(), member.getEmail()); //id와 email 중에 중복된것이 있는지 검사. 둘 중 하나라도 중복 회원 있으면 예외발생
-        if (findMember != null) {
-            throw new IllegalStateException("이미 가입된 회원입니다.");
+    private void validateDuplicateMember(Member member) {          //  중복 회원은 IllegalStateException 예외 발생
+        // id와 email 중에 중복된것이 있는지 검사. 둘 중 하나라도 중복 회원 있으면 예외발생
+        Member findmemID = memberRepository.findByMemID(member.getMemID());
+        Member findmemEmail = memberRepository.findByEmail(member.getEmail());
+
+        if (findmemID != null) {
+            throw new IllegalStateException("이미 가입된 아이디입니다.");
+        }
+        if (findmemEmail != null) {
+            throw new IllegalStateException("이미 가입된 이메일입니다.");
         }
     }
 
@@ -66,16 +73,17 @@ public class MemberService implements UserDetailsService {  //UserDetailService 
 
 
     //회원 전체 조회- 관리자
+    @Transactional(readOnly = true)
     public List<Member> findMembers() {
         return memberRepository.findAll();
     }
 
 
     //회원 리스트 가져오기. 페이징 포함.
+    @Transactional(readOnly = true)
     public Page<Member> getMembers(int page) {
         return memberRepository.findAll(PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC, "Id")));
     }
-
 
     //회원 삭제
     public void memberRemove(Long id) {
@@ -90,7 +98,6 @@ public class MemberService implements UserDetailsService {  //UserDetailService 
     }
 
     //상세조회
-    @Transactional
     public MemberFormDto getMemberDtl(String memID) {
 
         Member member = memberRepository.findByMemID(memID);
@@ -99,24 +106,21 @@ public class MemberService implements UserDetailsService {  //UserDetailService 
     }
 
     //삭제하기
-    @Transactional
     public void deleteMember(String memID) {
         memberRepository.deleteByMemID(memID);
     }
 
-
     //마이페이지
     @Transactional(readOnly = true)
     public MemberFormDto getMyMemberDtl(String email) {
-
         Member member = memberRepository.findByEmail(email);
-
         MemberFormDto memberFormDto = MemberFormDto.of(member);
-
 
         return memberFormDto;
     }
+
 }
+
 
 
 /* 로그인 */

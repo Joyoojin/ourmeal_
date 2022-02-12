@@ -23,13 +23,11 @@ public class NoticeService {
     private final NoticeRepository noticeRepository;
 
     // 등록
-    @Transactional
     public Long saveNotice(NoticeFormDto noticeFormDto) throws Exception {
         Notice notice = noticeFormDto.createNotice();
         noticeRepository.save(notice);
         return notice.getNoticeID();
     }
-
 
     //검색
     public List<Notice> searchNotices(String keyword) {
@@ -39,7 +37,7 @@ public class NoticeService {
     }
 
     //상세조회
-    @Transactional
+    @Transactional(readOnly = true)
     public NoticeFormDto getNoticeDtl(Long noticeID) {
 
         Notice notice = noticeRepository.findById(noticeID)
@@ -49,18 +47,18 @@ public class NoticeService {
     }
 
     /* 조회수 Counting */
-    @Transactional
     public int updateNoticeHit(Long id) {
         return noticeRepository.updateNoticeHit(id);
     }
 
     //전체조회
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Notice> findNotices() {
         return noticeRepository.findAll();
     }
 
     //리스트 가져오기. 페이징 포함.
+    @Transactional(readOnly = true)
     public Page<Notice> getNoticeList(int page) {
         return noticeRepository.findAll(PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC, "noticeID")));
     }
@@ -75,10 +73,8 @@ public class NoticeService {
     }
 
     //삭제하기
-    @Transactional
     public void deleteNotice(Long noticeID) {
         noticeRepository.deleteById(noticeID);
     }
-
 
 }

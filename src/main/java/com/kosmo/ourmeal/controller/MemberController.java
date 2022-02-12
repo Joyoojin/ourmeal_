@@ -6,6 +6,7 @@ import com.kosmo.ourmeal.entity.Member;
 import com.kosmo.ourmeal.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,11 +34,13 @@ public class MemberController {
         return "member/memberForm";                 // memberForm.html 페이지로 이동
     }
 
-    @PostMapping(value = "/new")
     //회원가입 페이지에서 작성완료 버튼 클릭될 경우  -> MemberForm의 @NotEmpty 같은 validation 체크하기
+    @PostMapping(value = "/new")
     public String newMember(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {          //@Valid 선언과 파라미터로 bindingResult 추가
 
+
         if (bindingResult.hasErrors()) {              // 회원가입 입력 칸에 작성이 유효하지 않을 경우 (예.이름을 입력하지 않거나)// 에러페이지로 튕기지 않고 BindingResult.hasErrors 호출.
+
             return "member/memberForm";              //어떤 에러가 있는지 메시지를 기존의 회원가입 페이지 실행 됨..! (예. 이름은 필수 입력입니다.)
         }
         try {
@@ -52,16 +55,17 @@ public class MemberController {
         return "redirect:/";
     }
 
+
     /* 로그인 */
     @GetMapping(value = "/login")
     public String loginMember() {
-        return "/member/memberLoginForm";
+        return "member/memberLoginForm";
     }
 
     @GetMapping(value = "/login/error")
     public String loginError(Model model) {
         model.addAttribute("loginErrorMsg", "이메일주소 또는 비밀번호를 확인해주세요"); //login 실패시 에러메세지
-        return "/member/memberLoginForm";
+        return "member/memberLoginForm";
     }
 
 
@@ -100,13 +104,11 @@ public class MemberController {
         return "member/memberForm";
     }
 
+
     /* 회원 상세 페이지 - 수정하기 (관리자용) */
     @GetMapping(value = "/adminMembers/edit/{memID}")
     public String memberDtl(Model model, @PathVariable("memID") String memID) {
-
-
         MemberFormDto memberFormDto = memberService.getMemberDtl(memID);
-
         model.addAttribute("memberFormDto", memberFormDto);
 
         return "member/memberForm";
@@ -119,8 +121,7 @@ public class MemberController {
             return "member/memberForm";
         }
         try {
-
-            memberService.updateMember(memberFormDto, passwordEncoder); //passwordEncoder 추가?
+            memberService.updateMember(memberFormDto, passwordEncoder); //passwordEncoder 추가
         } catch (Exception e) {
             model.addAttribute("errorMessage", "수정 중 에러가 발생하였습니다.");
             return "member/memberForm";
